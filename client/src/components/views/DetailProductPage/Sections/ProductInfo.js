@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Descriptions } from 'antd';
+import { useSelector } from 'react-redux';
 
 function ProductInfo(props) {
-
+    const user = useSelector(state => state.user)
     const [Product, setProduct] = useState({})
 
     useEffect(() => {
@@ -14,7 +15,6 @@ function ProductInfo(props) {
     const addToCartHandler = () => {
         props.addToCart(props.detail.id)
     }
-
 
     return (
         <div>
@@ -28,13 +28,15 @@ function ProductInfo(props) {
             <br />
             <br />
             <br />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            { props.isAuth && 
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button size="large" shape="round" type="danger"
                     onClick={addToCartHandler}
                 >
                     Add to Cart
                     </Button>
-            </div>
+                </div>
+            }
         </div>
     )
 }

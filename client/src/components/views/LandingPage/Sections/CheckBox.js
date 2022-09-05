@@ -4,12 +4,12 @@ import { Checkbox, Collapse } from "antd";
 const {Panel} = Collapse
 
 const manufacturers = [
-    { "_id": 1, "name": "Mazda" },
-    { "_id": 2, "name": "Audi" },
-    { "_id": 3, "name": "Mercedes" },
-    { "_id": 4, "name": "Volvo" },
-    { "_id": 5, "name": "BMW" },
-    { "_id": 6, "name": "Saab" }
+    { "_id": 1, "name": "iPhone" },
+    { "_id": 2, "name": "Xiaomi" },
+    { "_id": 3, "name": "Samsung" },
+    { "_id": 4, "name": "Huawei" },
+    { "_id": 5, "name": "Motorola" },
+    { "_id": 6, "name": "Nokia" }
 ]
 
 function CheckBox(props) {

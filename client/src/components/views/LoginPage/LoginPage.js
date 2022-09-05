@@ -7,7 +7,12 @@ import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from "react-redux";
 
 import { ReactComponent as GoogleLogo } from '../../../assets/google.svg';
+import { ReactComponent as GitHubLogo } from '../../../assets/github.svg';
+import { ReactComponent as FacebookLogo } from '../../../assets/facebook.svg';
 import { getGoogleUrl } from '../../utils/GoogleAuth';
+import { getGitHubUrl } from '../../utils/GitHubAuth'; 
+import { getFacebookUrl } from '../../utils/FacebookAuth';
+
 
 const { Title } = Typography;
 
@@ -131,9 +136,6 @@ function LoginPage(props) {
 
                 <Form.Item>
                   <Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe} >Remember me</Checkbox>
-                  <a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>
-                    forgot password
-                    </a>
                   <div>
                     <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
                       Log in
@@ -167,10 +169,61 @@ function LoginPage(props) {
                       alignItems='center'
                     >
                       <GoogleLogo style={{ height: '2rem' }} />
-                      Google
+                       Google
                     </Button>
                   </div>
-                  
+                  <div>
+                    <Button
+                      href={getGitHubUrl(from)}
+                      sx={{
+                        backgroundColor: '#f5f6f7',
+                        borderRadius: 1,
+                        py: '0.6rem',
+                        mt: '1.5rem',
+                        columnGap: '1rem',
+                        textDecoration: 'none',
+                        color: '#393e45',
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        '&:hover': {
+                          backgroundColor: '#fff',
+                          boxShadow: '0 1px 13px 0 rgb(0 0 0 / 15%)',
+                        },
+                      }}
+                      display='flex'
+                      justifyContent='center'
+                      alignItems='center'
+                      >
+                      <GitHubLogo style={{ height: '2rem' }} />
+                       GitHub
+                    </Button>    
+                  </div>
+                  <div>
+                    <Button
+                      href={getFacebookUrl(from)}
+                      sx={{
+                        backgroundColor: '#f5f6f7',
+                        borderRadius: 1,
+                        py: '0.6rem',
+                        mt: '1.5rem',
+                        columnGap: '1rem',
+                        textDecoration: 'none',
+                        color: '#393e45',
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        '&:hover': {
+                          backgroundColor: '#fff',
+                          boxShadow: '0 1px 13px 0 rgb(0 0 0 / 15%)',
+                        },
+                      }}
+                      display='flex'
+                      justifyContent='center'
+                      alignItems='center'
+                      >
+                      <FacebookLogo style={{ height: '2rem' }} />
+                      Facebook
+                    </Button>    
+                  </div>
                 </Form.Item>
               </form>
             </div>

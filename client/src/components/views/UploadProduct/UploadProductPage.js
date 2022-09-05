@@ -7,12 +7,12 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 const Manufacturers = [
-    { key: 1, value: "Mazda" },
-    { key: 2, value: "Audi" },
-    { key: 3, value: "Mercedes" },
-    { key: 4, value: "Volvo" },
-    { key: 5, value: "BMW" },
-    { key: 6, value: "Saab" }
+    { key: 1, value: "iPhone" },
+    { key: 2, value: "Xiaomi" },
+    { key: 3, value: "Samsung" },
+    { key: 4, value: "Huawei" },
+    { key: 5, value: "Motorola" },
+    { key: 6, value: "Nokia" }
 ]
 
 function UploadProductPage(props) {

@@ -120,6 +120,10 @@ func (ps *ProductsServiceImpl) GetProduct(id string) (*models.ProductDBResponse,
 		return nil, err
 	}
 
+	opts := options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(1)
+	update := bson.M{"$set":bson.M{"views": product.Views + 1}}	
+	ps.collection.FindOneAndUpdate(ps.ctx, query, update, opts)
+
 	return product, nil
 }
 

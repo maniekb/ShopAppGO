@@ -7,6 +7,8 @@ import CheckBox from './Sections/CheckBox.js';
 import RadioBox from './Sections/RadioBox';
 import { price, manufacturers } from './Sections/Data'
 import SearchFeature from './Sections/SearchFeature';
+import { Link } from 'react-router-dom';
+
 const { Meta } = Card;
 
 function LandingPage() {
@@ -31,13 +33,14 @@ function LandingPage() {
 
     const renderCars = Products.map((product, index) => {
             return <Col lg={6} md={8} xs={24}>
+                <Link to={`/product/${product.id}`}>
                 <Card 
                     hoverable={true} 
-                    cover={<a href={`/product/${product.id}`}> elele{/*<ImageSlider images={product.images} />*/}</a>}
                 >
                     <Meta title={product.title} description={`$${product.price}`}/>
                     
                 </Card>
+                </Link>
             </Col>
     })
 
@@ -141,7 +144,7 @@ function LandingPage() {
     return (
         <div style={{ width: '75%', margin: '3rem auto'}}>
             <div style={{ textAlign: 'center' }}>
-                <h2>Find your dream car<Icon type="rocket" /></h2>
+                <h2>Find your dream phone <Icon type="mobile" /></h2>
             </div>
 
             <Row gutter={[16, 16]}>

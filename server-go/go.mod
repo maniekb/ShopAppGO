@@ -17,6 +17,7 @@ require (
 	github.com/gofiber/utils v0.0.10 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -49,10 +50,12 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mongodb.org/mongo-driver v1.10.1 // indirect
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
-	golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2 // indirect
+	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
+	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

@@ -86,13 +86,13 @@ export function getCartItems(cartItems, userCart) {
 export function removeCartItem(id) {
     const request = axios.delete(`/api/users/removeFromCart?productId=${id}`)
         .then(response => {
-            response.data.cart.items.forEach(item => {
-                response.data.cartDetail.forEach((k, i) => {
-                    if (item.id === k._id) {
-                        response.data.cartDetail[i].quantity = item.quantity
-                    }
-                })
-            })
+            // response.data.cart.items.forEach(item => {
+            //     response.data.cartDetail.forEach((k, i) => {
+            //         if (item.id === k._id) {
+            //             response.data.cartDetail[i].quantity = item.quantity
+            //         }
+            //     })
+            // })
             return response.data;
         });
 

@@ -16,18 +16,18 @@ const price = [
     },
     {
         "_id": 3,
-        "name": "$250 to $279",
-        "array": [250, 279]
+        "name": "$250 to $349",
+        "array": [250, 349]
     },
     {
         "_id": 4,
-        "name": "$280 to $299",
-        "array": [280, 299]
+        "name": "$350 to $499",
+        "array": [350, 499]
     },
     {
         "_id": 5,
-        "name": "More than $300",
-        "array": [300, 1500000]
+        "name": "More than $500",
+        "array": [500, 1500000]
     }
 ]
 

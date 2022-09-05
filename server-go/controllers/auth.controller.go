@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"golang.org/x/oauth2"
 	"github.com/gin-gonic/gin"
 	"example/web-service-gin/config"
 	"example/web-service-gin/models"
@@ -193,6 +194,138 @@ func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(config.ClientOrigin, pathUrl))
 }
+
+func (ac *AuthController) GitHubOAuth(ctx *gin.Context) {
+	code := ctx.Query("code")
+	var pathUrl string = "/"
+
+	if ctx.Query("state") != "" {
+		pathUrl = ctx.Query("state")
+	}
+
+	if code == "" {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "Authorization code not provided!"})
+		return
+	}
+
+	// Use the code to get the id and access tokens
+	tokenRes, err := utils.GetGitHubOauthToken(code)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	user, err := utils.GetGitHubUser(tokenRes.Access_token)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	createdAt := time.Now()
+	resBody := &models.UpdateDBUser{
+		Email:     user.Email,
+		Name:      user.Name,
+		Photo:     user.Photo,
+		Provider:  "github",
+		Role:      "user",
+		Verified:  true,
+		CreatedAt: createdAt,
+		UpdatedAt: createdAt,
+	}
+
+	updatedUser, err := ac.userService.UpsertUser(user.Email, resBody)
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	config, _ := config.LoadConfig(".")
+
+	// Generate Tokens
+	access_token, err := utils.CreateToken(config.AccessTokenExpiresIn, updatedUser.ID.Hex(), config.AccessTokenPrivateKey)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	refresh_token, err := utils.CreateToken(config.RefreshTokenExpiresIn, updatedUser.ID.Hex(), config.RefreshTokenPrivateKey)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	ctx.SetCookie("access_token", access_token, config.AccessTokenMaxAge*60, "/", "localhost", false, true)
+	ctx.SetCookie("refresh_token", refresh_token, config.RefreshTokenMaxAge*60, "/", "localhost", false, true)
+	ctx.SetCookie("logged_in", "true", config.AccessTokenMaxAge*60, "/", "localhost", false, false)
+
+	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(config.ClientOrigin, pathUrl))
+}
+
+func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
+	code := ctx.Query("code")
+	var pathUrl string = "/"
+
+	if ctx.Query("state") != "" {
+		pathUrl = ctx.Query("state")
+	}
+
+	if code == "" {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "Authorization code not provided!"})
+		return
+	}
+
+	var OAuth2Config = utils.GetFacebookOAuthConfig()
+
+    token, err := OAuth2Config.Exchange(oauth2.NoContext, code)
+
+    if err != nil || token == nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+    user, err := utils.GetFacebookUser(token.AccessToken)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	createdAt := time.Now()
+	resBody := &models.UpdateDBUser{
+		Email:     user.Email,
+		Name:      user.Name,
+		Provider:  "facebook",
+		Role:      "user",
+		Verified:  true,
+		CreatedAt: createdAt,
+		UpdatedAt: createdAt,
+	}
+
+	updatedUser, err := ac.userService.UpsertUser(user.Email, resBody)
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	config, _ := config.LoadConfig(".")
+
+	// Generate Tokens
+	access_token, err := utils.CreateToken(config.AccessTokenExpiresIn, updatedUser.ID.Hex(), config.AccessTokenPrivateKey)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	refresh_token, err := utils.CreateToken(config.RefreshTokenExpiresIn, updatedUser.ID.Hex(), config.RefreshTokenPrivateKey)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+    ctx.SetCookie("access_token", access_token, config.AccessTokenMaxAge*60, "/", "localhost", false, true)
+	ctx.SetCookie("refresh_token", refresh_token, config.RefreshTokenMaxAge*60, "/", "localhost", false, true)
+	ctx.SetCookie("logged_in", "true", config.AccessTokenMaxAge*60, "/", "localhost", false, false)
+
+	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(config.ClientOrigin, pathUrl))
+}
+
 
 func (ac *AuthController) LogoutUser(ctx *gin.Context) {
 	ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)

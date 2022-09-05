@@ -14,7 +14,7 @@ type ProductDBResponse struct {
 	Writer			primitive.ObjectID `json:"writer" bson:"writer"`
 	Title        	string             `json:"title" bson:"title"`
 	Description     string             `json:"description" bson:"description"`
-	Sold        	bool               `json:"sold" bson:"sold"`
+	Sold        	int                `json:"sold" bson:"sold"`
 	CreatedAt       time.Time          `json:"created_at" bson:"created_at"`
 	UpdatedAt       time.Time          `json:"updated_at" bson:"updated_at"`
 }

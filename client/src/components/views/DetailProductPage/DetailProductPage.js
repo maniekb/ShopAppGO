@@ -4,9 +4,10 @@ import { Row, Col } from 'antd';
 import ProductImage from './Sections/ProductImage';
 import ProductInfo from './Sections/ProductInfo';
 import { addToCart } from '../../../_actions/user_actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function DetailProductPage(props) {
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch();
     const productId = props.match.params.productId
     const [Product, setProduct] = useState([])
@@ -23,7 +24,6 @@ function DetailProductPage(props) {
         dispatch(addToCart(productId))
     }
 
-
     return (
         <div className="postPage" style={{ width: '100%', padding: '3rem 4rem' }}>
 
@@ -39,6 +39,7 @@ function DetailProductPage(props) {
                 </Col>
                 <Col lg={12} xs={24}>
                     <ProductInfo
+                        isAuth={user.userData && user.userData.isAuth}
                         addToCart={addToCartHandler}
                         detail={Product} />
                 </Col>

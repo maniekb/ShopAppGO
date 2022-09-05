@@ -9,7 +9,6 @@ import UserCardBlock from './Sections/UserCardBlock';
 import { Result, Empty } from 'antd';
 import Axios from 'axios';
 import Paypal from '../../utils/Paypal';
-import Stripe from '../../utils/Stripe/Stripe';
 
 function CartPage(props) {
     const dispatch = useDispatch();
@@ -41,7 +40,7 @@ function CartPage(props) {
 
     const calculateTotal = (cartItems) => {
         let total = 0;
-
+        
         cartItems.map(item => {
             total += parseInt(item.price, 10) * item.quantity
         });
@@ -58,7 +57,7 @@ function CartPage(props) {
                 if (response.payload.cart.items.length <= 0) {
                     setShowTotal(false)
                 } else {
-                    calculateTotal(response.payload.cartDetail)
+                    calculateTotal(response.payload.cart.items)
                 }
             })
     }
