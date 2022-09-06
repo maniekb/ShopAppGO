@@ -23,6 +23,11 @@ func NewAuthController(authService services.AuthService, userService services.Us
 	return AuthController{authService, userService}
 }
 
+func (ac *AuthController) GetAuthCodeNotProvidedErrorMessage () (string) {
+	return "Authorization code not provided!"
+}
+
+
 // SignUp User
 func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 	var user *models.SignUpInput
@@ -139,7 +144,7 @@ func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 	}
 
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "Authorization code not provided!"})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": ac.GetAuthCodeNotProvidedErrorMessage})
 		return
 	}
 
@@ -204,7 +209,7 @@ func (ac *AuthController) GitHubOAuth(ctx *gin.Context) {
 	}
 
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "Authorization code not provided!"})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": ac.GetAuthCodeNotProvidedErrorMessage})
 		return
 	}
 
@@ -269,7 +274,7 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 	}
 
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": "Authorization code not provided!"})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": ac.GetAuthCodeNotProvidedErrorMessage})
 		return
 	}
 

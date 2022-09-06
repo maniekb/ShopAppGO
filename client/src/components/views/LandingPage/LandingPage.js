@@ -1,7 +1,6 @@
 import Axios from 'axios';
 import { Card, Icon, Row, Col } from "antd";
 import React, { useEffect, useState } from 'react'
-import ImageSlider from '../../utils/ImageSlider';
 import { PRODUCT_SERVER } from '../../Config.js';
 import CheckBox from './Sections/CheckBox.js';
 import RadioBox from './Sections/RadioBox';
@@ -13,9 +12,9 @@ const { Meta } = Card;
 
 function LandingPage() {
 
+    const Limit = 8;
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
-    const [Limit, setLimit] = useState(8)
     const [ProductsTotal, setProductsTotal] = useState(0)
     const [SearchTerms, setSearchTerms] = useState("")
     const [Filters, setFilters] = useState({
@@ -60,7 +59,7 @@ function LandingPage() {
                 queryParams["priceTo"] = variables.filters.price[1]
             }
             if(variables.searchTerm !== "") {
-                queryParams["searchTerm"] = variables.searchTerm
+                queryParams["searchTerm"] = SearchTerms
             }
         }
 

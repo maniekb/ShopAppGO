@@ -2,7 +2,7 @@
 import React from 'react';
 import { Menu, Icon, Badge } from 'antd';
 import axios from 'axios';
-import { AUTH_SERVER, USER_SERVER } from '../../../Config';
+import { AUTH_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
 

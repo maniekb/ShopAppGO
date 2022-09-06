@@ -80,15 +80,15 @@ func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {
 	return tokenBody, nil
 }
 
-func GetGoogleUser(access_token string, id_token string) (*GoogleUserResult, error) {
-	rootUrl := fmt.Sprintf("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=%s", access_token)
+func GetGoogleUser(accessToken string, idToken string) (*GoogleUserResult, error) {
+	rootUrl := fmt.Sprintf("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=%s", accessToken)
 
 	req, err := http.NewRequest("GET", rootUrl, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", id_token))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", idToken))
 
 	client := http.Client{
 		Timeout: time.Second * 30,

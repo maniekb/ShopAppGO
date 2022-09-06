@@ -3,7 +3,6 @@ import { Button, Descriptions } from 'antd';
 import { useSelector } from 'react-redux';
 
 function ProductInfo(props) {
-    const user = useSelector(state => state.user)
     const [Product, setProduct] = useState({})
 
     useEffect(() => {

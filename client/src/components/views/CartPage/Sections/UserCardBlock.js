@@ -2,14 +2,12 @@ import React from 'react'
 
 function UserCardBlock(props) {
 
-
-
-    const renderCartImage = (images) => {
+    //const renderCartImage = (images) => {
         // if(images.length > 0) {
         //     let image = images[0]
         //     return `http://localhost:5000/${image}`
         // }
-    }
+    //}
 
     const renderItems = () => {
         console.log(props.products)
@@ -17,7 +15,7 @@ function UserCardBlock(props) {
             <tr key={product.productId}>
                 <td>
                     <img style={{ width: '70px' }} alt="product" 
-                    src={renderCartImage(product.images)} />
+                    /* src={renderCartImage(product.images)} *//>
                 </td> 
                 <td>{product.quantity} EA</td>
                 <td>$ {product.price} </td>

@@ -52,29 +52,6 @@ func (ps *ProductsServiceImpl) GetProducts(searchTerm string, skip int64, limit 
 		}
 	}
 
-	if searchTerm != "" {
-		filter = bson.M{
-			"$or": []bson.M{
-				{
-					"title": bson.M{
-						"$regex": primitive.Regex{
-							Pattern: searchTerm,
-							Options: "i",
-						},
-					},
-				},
-				{
-					"description": bson.M{
-						"$regex": primitive.Regex{
-							Pattern: searchTerm,
-							Options: "i",
-						},
-					},
-				},
-			},
-		}
-	}
-
 	if len(manufacturers) > 0 {
 		filter["manufacturer"] = bson.M{"$in": manufacturers}
 	}

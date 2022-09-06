@@ -79,7 +79,7 @@ func GetGitHubOauthToken(code string) (*GitHubOauthToken, error) {
 	return tokenBody, nil
 }
 
-func GetGitHubUser(access_token string) (*GitHubUserResult, error) {
+func GetGitHubUser(accessToken string) (*GitHubUserResult, error) {
 	rootUrl := "https://api.github.com/user"
 
 	req, err := http.NewRequest("GET", rootUrl, nil)
@@ -87,7 +87,7 @@ func GetGitHubUser(access_token string) (*GitHubUserResult, error) {
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", access_token))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 
 	client := http.Client{
 		Timeout: time.Second * 30,
