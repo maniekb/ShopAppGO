@@ -1,0 +1,24 @@
+version: '1'
+services:
+    server:
+        build: 
+          context: ./server-go
+          dockerfile: ./Dockerfile
+        command: gin
+        volumes:
+            - ./server:/go/src/app
+        ports:
+            - "8000:8000"
+    client:
+        stdin_open: true
+        build: 
+          context: ./client
+          dockerfile: ./Dockerfile
+        command: npm start
+        volumes:
+            - ./client:/usr/src/app
+            - /usr/src/app/node_modules
+        depends_on:
+            - "server"
+        ports:
+            - "3000:3000"
