@@ -10,6 +10,8 @@ import (
 	"net/url"
 	"time"
 
+	"golang.org/x/oauth2"
+	googleOAuth "golang.org/x/oauth2/google"
 	"example/web-service-gin/config"
 )
 
@@ -27,6 +29,18 @@ type GoogleUserResult struct {
 	Family_name    string
 	Picture        string
 	Locale         string
+}
+
+func GetGoogleOAuthConfig() *oauth2.Config {
+
+	config, _ := config.LoadConfig(".")
+    return &oauth2.Config{
+        ClientID:     config.GoogleClientID,
+        ClientSecret: config.GoogleClientSecret,
+        RedirectURL:  config.GoogleOAuthRedirectUrl,
+        Endpoint:     googleOAuth.Endpoint,
+        Scopes:       []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"},
+    }
 }
 
 func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {

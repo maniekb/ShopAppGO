@@ -10,6 +10,8 @@ import (
 	"net/url"
 	"time"
 
+	"golang.org/x/oauth2"
+	githubOAuth "golang.org/x/oauth2/github"
 	"example/web-service-gin/config"
 )
 
@@ -27,6 +29,18 @@ type GitHubUserRes struct {
 	email  string
 	avatar_url string
 	login string
+}
+
+func GetGitHubOAuthConfig() *oauth2.Config {
+
+	config, _ := config.LoadConfig(".")
+    return &oauth2.Config{
+        ClientID:     config.GitHubClientID,
+        ClientSecret: config.GitHubClientSecret,
+        RedirectURL:  config.GitHubOAuthRedirectUrl,
+        Endpoint:     githubOAuth.Endpoint,
+        Scopes:       []string{"user:email"},
+    }
 }
 
 func GetGitHubOauthToken(code string) (*GitHubOauthToken, error) {

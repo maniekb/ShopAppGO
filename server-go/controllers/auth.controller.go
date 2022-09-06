@@ -135,6 +135,12 @@ func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "access_token": access_token})
 }
 
+func (ac *AuthController) InitGoogleLogin(ctx *gin.Context) {
+    var OAuth2Config = utils.GetGoogleOAuthConfig()
+    url := OAuth2Config.AuthCodeURL("/")
+    ctx.Redirect(http.StatusFound, url)
+}
+
 func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 	code := ctx.Query("code")
 	var pathUrl string = "/"
@@ -198,6 +204,12 @@ func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 	ctx.SetCookie("logged_in", "true", config.AccessTokenMaxAge*60, "/", "localhost", false, false)
 
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(config.ClientOrigin, pathUrl))
+}
+
+func (ac *AuthController) InitGitHubLogin(ctx *gin.Context) {
+    var OAuth2Config = utils.GetGitHubOAuthConfig()
+    url := OAuth2Config.AuthCodeURL("/")
+    ctx.Redirect(http.StatusFound, url)
 }
 
 func (ac *AuthController) GitHubOAuth(ctx *gin.Context) {
@@ -265,6 +277,12 @@ func (ac *AuthController) GitHubOAuth(ctx *gin.Context) {
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(config.ClientOrigin, pathUrl))
 }
 
+func (ac *AuthController) InitFacebookLogin(ctx *gin.Context) {
+    var OAuth2Config = utils.GetFacebookOAuthConfig()
+    url := OAuth2Config.AuthCodeURL("/")
+    ctx.Redirect(http.StatusFound, url)
+}
+
 func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 	code := ctx.Query("code")
 	var pathUrl string = "/"
@@ -274,7 +292,7 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 	}
 
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": ac.GetAuthCodeNotProvidedErrorMessage})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "1", "message": ac.GetAuthCodeNotProvidedErrorMessage})
 		return
 	}
 
@@ -283,14 +301,14 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
     token, err := OAuth2Config.Exchange(oauth2.NoContext, code)
 
     if err != nil || token == nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "2", "message": err.Error()})
 		return
 	}
 
     user, err := utils.GetFacebookUser(token.AccessToken)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "3", "message": err.Error()})
 	}
 
 	createdAt := time.Now()
@@ -306,7 +324,7 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 
 	updatedUser, err := ac.userService.UpsertUser(user.Email, resBody)
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "4", "message": err.Error()})
 	}
 
 	config, _ := config.LoadConfig(".")

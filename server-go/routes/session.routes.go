@@ -16,7 +16,10 @@ func NewSessionRouteController(authController controllers.AuthController) Sessio
 func (rc *SessionRouteController) SessionRoute(rg *gin.RouterGroup) {
 	router := rg.Group("/sessions/oauth")
 
+	router.GET("/google/init", rc.authController.InitGoogleLogin)
 	router.GET("/google", rc.authController.GoogleOAuth)
+	router.GET("/github/init", rc.authController.InitGitHubLogin)
 	router.GET("/github", rc.authController.GitHubOAuth)
+	router.GET("/facebook/init", rc.authController.InitFacebookLogin)
 	router.GET("/facebook", rc.authController.FacebookOAuth)
 }

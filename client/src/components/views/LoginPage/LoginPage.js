@@ -9,9 +9,8 @@ import { useDispatch } from "react-redux";
 import { ReactComponent as GoogleLogo } from '../../../assets/google.svg';
 import { ReactComponent as GitHubLogo } from '../../../assets/github.svg';
 import { ReactComponent as FacebookLogo } from '../../../assets/facebook.svg';
-import { getGoogleUrl } from '../../utils/GoogleAuth';
-import { getGitHubUrl } from '../../utils/GitHubAuth'; 
-import { getFacebookUrl } from '../../utils/FacebookAuth';
+
+import { SESSION_SERVER } from '../../Config.js';
 
 
 const { Title } = Typography;
@@ -30,6 +29,9 @@ function LoginPage(props) {
   };
 
   const initialEmail = localStorage.getItem("rememberMe") ? localStorage.getItem("rememberMe") : '';
+
+  console.log("from")
+  console.log(from)
 
   return (
       <Formik
@@ -147,7 +149,7 @@ function LoginPage(props) {
                   Log in with another provider:
                   <div>
                     <Button
-                      href={getGoogleUrl(from)}
+                      href={`${SESSION_SERVER}/google/init`}
                       sx={{
                         backgroundColor: '#f5f6f7',
                         borderRadius: 1,
@@ -172,7 +174,7 @@ function LoginPage(props) {
                   </div>
                   <div>
                     <Button
-                      href={getGitHubUrl(from)}
+                      href={`${SESSION_SERVER}/github/init`}
                       sx={{
                         backgroundColor: '#f5f6f7',
                         borderRadius: 1,
@@ -198,7 +200,7 @@ function LoginPage(props) {
                   </div>
                   <div>
                     <Button
-                      href={getFacebookUrl(from)}
+                      href={`${SESSION_SERVER}/facebook/init`}
                       sx={{
                         backgroundColor: '#f5f6f7',
                         borderRadius: 1,
