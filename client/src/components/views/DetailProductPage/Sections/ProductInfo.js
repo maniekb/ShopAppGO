@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Descriptions } from 'antd';
-import { useSelector } from 'react-redux';
 
 function ProductInfo(props) {
     const [Product, setProduct] = useState({})
