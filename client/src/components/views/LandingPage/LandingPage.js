@@ -43,8 +43,7 @@ function LandingPage() {
             </Col>
     })
 
-    const getProducts = (variables) => {
-
+    const getQueryParams = (variables) => {
         let queryParams = {
             skip: variables.skip,
             limit: variables.limit
@@ -62,6 +61,13 @@ function LandingPage() {
                 queryParams["searchTerm"] = SearchTerms
             }
         }
+
+        return queryParams
+    }
+
+    const getProducts = (variables) => {
+
+        let queryParams = getQueryParams(variables)
 
         Axios.get(`${PRODUCT_SERVER}/getProducts`, { params: queryParams})
             .then(response => {

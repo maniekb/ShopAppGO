@@ -65,14 +65,10 @@ function registerValidSW(swUrl, config) {
         }
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              if (config && config.onUpdate) {
-                config.onUpdate(registration);
-              }
-            } else {
-              if (config && config.onSuccess) {
-                config.onSuccess(registration);
-              }
+            if (navigator.serviceWorker.controller && config && config.onUpdate) {
+              config.onUpdate(registration);
+            } else if (config && config.onSuccess){
+              config.onSuccess(registration);
             }
           }
         };
