@@ -192,8 +192,6 @@ func (us *UserServiceImpl) CreatePaymentHistory(userOid primitive.ObjectID, paym
 	query := bson.M{"userId": userOid}
 	err := us.cartCollection.FindOne(us.ctx, query).Decode(&cart)
 
-	fmt.Println(cart)
-
 	for _, item := range cart.Items {
 		fmt.Println(item)
         var paymentHistory models.PaymentDBResponse

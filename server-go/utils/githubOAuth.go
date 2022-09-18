@@ -112,24 +112,19 @@ func GetGitHubUser(accessToken string) (*GitHubUserResult, error) {
 
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println("blad")
 		return nil, err
 	}
 
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		fmt.Println("blad")
 		return nil, errors.New("could not retrieve user")
 	}
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println("blad")
 		return nil, err
 	}
-
-	fmt.Println(resBody)
 
 	var GitHubUserRes map[string]interface{}
 

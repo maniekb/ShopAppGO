@@ -292,7 +292,7 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 	}
 
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "1", "message": ac.GetAuthCodeNotProvidedErrorMessage})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"status": "fail", "message": ac.GetAuthCodeNotProvidedErrorMessage})
 		return
 	}
 
@@ -301,14 +301,14 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
     token, err := OAuth2Config.Exchange(oauth2.NoContext, code)
 
     if err != nil || token == nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "2", "message": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
     user, err := utils.GetFacebookUser(token.AccessToken)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "3", "message": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 	}
 
 	createdAt := time.Now()
@@ -324,7 +324,7 @@ func (ac *AuthController) FacebookOAuth(ctx *gin.Context) {
 
 	updatedUser, err := ac.userService.UpsertUser(user.Email, resBody)
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "4", "message": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 	}
 
 	config, _ := config.LoadConfig(".")

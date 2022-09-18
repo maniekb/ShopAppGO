@@ -13,8 +13,6 @@ export default function (SpecificComponent, option, adminRoute = null) {
             dispatch(auth()).then(response => {
                 if (!response.payload.isAuth && option) {
                     props.history.push('/login')
-                } else {
-                    props.history.push('/')
                 }
             })
 

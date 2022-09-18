@@ -11,13 +11,11 @@ function HistoryPage(props) {
 
     useEffect(() => {
         dispatch(getHistory())
-            .then((response) => {
+            .then(response => {
                 console.log(response.payload.history)
                 setHistory(response.payload.history)
             })
       }, []);
-
-      console.log(history)
 
     return (
         <div style={{ width: '80%', margin: '3rem auto' }}>
@@ -38,7 +36,7 @@ function HistoryPage(props) {
 
                 <tbody>
 
-                    {history.map(item => (
+                    {history && history.map(item => (
                             <tr key={item.id}>
                                 <td>{item.paymentId}</td>
                                 <td>{item.price}</td>
