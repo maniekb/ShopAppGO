@@ -34,11 +34,18 @@ function CartPage(props) {
         setShowTotal(true)
     }
 
+    function removeElementWithId(arr, productId) {
+        const objWithIdIndex = arr.findIndex((obj) => obj.productId === productId);
+        arr.splice(objWithIdIndex, 1);
+      
+        return arr;
+      }
+
     const removeFromCart = (productId) => {
 
         dispatch(removeCartItem(productId))
             .then((response) => {
-                console.log(response.payload)
+                removeElementWithId(props.user.userData.cartItems, productId)
                 if (response.payload.cart.items.length <= 0) {
                     setShowTotal(false)
                 } else {

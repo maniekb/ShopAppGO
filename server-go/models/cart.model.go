@@ -6,6 +6,7 @@ import (
 
 type CartItemDBResponse struct {
 	ProductID          primitive.ObjectID  	`json:"productId" bson:"productId"`
+	ProductName		   string 				`json:"productName" bson:"productName"`
 	Price              int 					`json:"price" bson:"price"`
 	Quantity		   int 					`json:"quantity" bson:"quantity"`
 }

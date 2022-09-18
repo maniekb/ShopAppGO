@@ -22,6 +22,12 @@ function DetailProductPage(props) {
 
     const addToCartHandler = (productId) => {
         dispatch(addToCart(productId))
+            .then((response) => {
+                if (response.payload.success) {
+                    alert("Product successfully added to cart!")
+                } else {
+                }
+            })
     }
 
     return (

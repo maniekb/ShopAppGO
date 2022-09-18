@@ -5,7 +5,6 @@ import (
 	"errors"
 	"strings"
 	"time"
-	"fmt"
 
 	"example/web-service-gin/models"
 	"example/web-service-gin/utils"
@@ -130,6 +129,7 @@ func (us *UserServiceImpl) AddToCart(userOid primitive.ObjectID, productId strin
 	} else {
 		var cartItem models.CartItemDBResponse
 		cartItem.ProductID = productOid
+		cartItem.ProductName = product.Title
 		cartItem.Price = product.Price
 		cartItem.Quantity = 1
 
@@ -165,7 +165,7 @@ func (us *UserServiceImpl) RemoveFromCart(userOid primitive.ObjectID, productId 
 	var updatedCart *models.CartDBResponse
 
 	if err := res.Decode(&updatedCart); err != nil {
-		return nil, errors.New("no post with that Id exists")
+		return nil, errors.New("cannot get cart from DB")
 	}
 
 	return updatedCart, nil
@@ -193,7 +193,6 @@ func (us *UserServiceImpl) CreatePaymentHistory(userOid primitive.ObjectID, paym
 	err := us.cartCollection.FindOne(us.ctx, query).Decode(&cart)
 
 	for _, item := range cart.Items {
-		fmt.Println(item)
         var paymentHistory models.PaymentDBResponse
 		paymentHistory.ID = primitive.NewObjectID()
 		paymentHistory.PaymentID = paymentData.PaymentData.ID
@@ -217,6 +216,19 @@ func (us *UserServiceImpl) ClearCart(userOid primitive.ObjectID) (*models.CartDB
 
 	query := bson.M{"userId": userOid}
 	err := us.cartCollection.FindOne(us.ctx, query).Decode(&cart)
+
+	for _, item := range cart.Items {
+		var product *models.ProductDBResponse
+
+		query := bson.M{"_id": item.ProductID}
+		err := us.productCollection.FindOne(us.ctx, query).Decode(&product)
+
+		if err == nil {
+			opts := options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(1)
+			update := bson.M{"$set":bson.M{"sold": product.Sold + 1}}	
+			us.productCollection.FindOneAndUpdate(us.ctx, query, update, opts)
+		}
+    }
 
 	opts := options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(1)
 	update := bson.M{"$set":bson.M{"items": []*models.CartItemDBResponse {}}}

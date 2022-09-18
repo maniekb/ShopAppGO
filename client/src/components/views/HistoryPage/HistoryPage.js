@@ -12,7 +12,6 @@ function HistoryPage(props) {
     useEffect(() => {
         dispatch(getHistory())
             .then(response => {
-                console.log(response.payload.history)
                 setHistory(response.payload.history)
             })
       }, []);

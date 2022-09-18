@@ -37,9 +37,11 @@ function RightMenu(props) {
         <Menu.Item key="history">
           <a href="/user/history">History</a>
         </Menu.Item>
-        <Menu.Item key="upload">
-          <a href="/product/upload">Upload</a>
-        </Menu.Item>
+        { user.userData && user.userData.role == "admin" &&
+          <Menu.Item key="upload">
+            <a href="/product/upload">Upload</a>
+          </Menu.Item>
+        }
         <Menu.Item key="cart" style={{ paddingBottom: 3 }}>
           <Badge count={user.userData && user.userData.cartItems.length }>
             <a href="/user/cart" style={{ marginRight: -22 , color:'#667777'}}>
