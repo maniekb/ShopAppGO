@@ -25,7 +25,6 @@ function DetailProductPage(props) {
             .then((response) => {
                 if (response.payload.success) {
                     alert("Product successfully added to cart!")
-                } else {
                 }
             })
     }
